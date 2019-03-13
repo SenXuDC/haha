@@ -3,11 +3,16 @@ package com.xusenme.controller;
 import com.xusenme.controller.vo.UserVo;
 import com.xusenme.model.User;
 import com.xusenme.service.UserService;
+import com.xusenme.utils.JwtUtil;
+import io.jsonwebtoken.Claims;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -16,6 +21,10 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    // key
+    @Value("${user.jwtKey}")
+    private String jwtKey;
 
     @ApiOperation(value = "获取用户详细信息", notes = "根据url的id来获取用户详细信息")
     @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "String")
@@ -48,4 +57,18 @@ public class UserController {
         return userService.login(userVo);
     }
 
+    @ApiOperation(value = "用户详情", notes = "")
+    @RequestMapping(value = "/info", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public Map<String, Object> login(HttpServletRequest req) {
+        Map<String, Object> resultMap = new HashMap<>();
+        String token = req.getHeader("token");
+        Claims claims = JwtUtil.parseJWT(token, jwtKey);
+        resultMap.put("id", claims.get("id"));
+        resultMap.put("username", claims.get("username"));
+        resultMap.put("email", claims.get("email"));
+        resultMap.put("admin", claims.get("admin"));
+        resultMap.put("size", claims.get("size"));
+        return resultMap;
+    }
 }

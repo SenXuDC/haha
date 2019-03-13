@@ -8,6 +8,7 @@ public class User {
     private Boolean admin;
     private int size;
     private String password;
+    private Boolean active;
 
     @Override
     public String toString() {
@@ -18,7 +19,16 @@ public class User {
                 ", admin=" + admin +
                 ", size=" + size +
                 ", password='" + password + '\'' +
+                ", active=" + active +
                 '}';
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public String getId() {

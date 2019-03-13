@@ -4,6 +4,7 @@ import com.mysql.jdbc.StringUtils;
 import com.xusenme.service.UserService;
 import com.xusenme.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -30,10 +31,12 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object object) throws Exception {
+
         String path = httpServletRequest.getServletPath();
-        if (path.startsWith("/user")) {
+        if (path.startsWith("/user") || path.contains("swagger") || path.contains("api") || path.contains("/")) {
             return true;
         }
+
 
         // 从 http 请求头中取出 token
         String token = httpServletRequest.getHeader("token");
@@ -41,7 +44,16 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             httpServletResponse.sendError(403,"没有权限认证");
             return false;
         }
-        Claims claims = JwtUtil.parseJWT(token, jwtKey);
+        Claims claims = null;
+        try {
+            claims = JwtUtil.parseJWT(token, jwtKey);
+        } catch (ExpiredJwtException e) {
+            httpServletResponse.sendError(403,"权限过期");
+        }
+        if (path.startsWith("/admin") && !(Boolean)claims.get("admin")) {
+            httpServletResponse.sendError(403,"无访问权限");
+            return false;
+        }
         if (claims.get("id") != null) {
             return true;
         }

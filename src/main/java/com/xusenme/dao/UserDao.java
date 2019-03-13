@@ -5,6 +5,8 @@ import com.xusenme.model.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 @Mapper
 public interface UserDao {
     User getNameById(User user);
@@ -16,4 +18,6 @@ public interface UserDao {
     int active(String id);
 
     User getUserByEmailAndPassword(UserVo userVo);
+
+    List<User> listUser();
 }

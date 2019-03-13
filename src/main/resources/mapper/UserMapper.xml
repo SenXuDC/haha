@@ -9,7 +9,7 @@
 	</select>
 
     <select id="getUserByEmail" parameterType="String" resultType="com.xusenme.model.User">
-		select * from user where email = #{email}
+		select * from user where email = #{email};
 	</select>
 
     <insert id="createUser" parameterType="com.xusenme.model.User" >
@@ -22,6 +22,10 @@
 
 	<select id="getUserByEmailAndPassword" parameterType="com.xusenme.controller.vo.UserVo" resultType="com.xusenme.model.User">
 		SELECT * FROM user WHERE email=#{email} and password=#{password}
+	</select>
+
+	<select id="listUser" resultType="com.xusenme.model.User">
+		select id,username,email,size,admin,active from user;
 	</select>
 
 </mapper>
