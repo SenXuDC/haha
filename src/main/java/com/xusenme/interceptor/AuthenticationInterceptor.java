@@ -34,6 +34,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
         String path = httpServletRequest.getServletPath();
         if (path.startsWith("/user") || path.contains("swagger") || path.contains("api") || path.contains("/")) {
+            httpServletRequest.setAttribute("userId","bfc5f9a3-bd2d-45c2-bfa3-6b893443a980");
             return true;
         }
 

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.apache.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xusenme.dao.MyFileDao">
+
+    <resultMap id="MyFileResultMap" type="com.xusenme.model.MyFile">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="filename" jdbcType="VARCHAR" property="filename"/>
+        <result column="size" jdbcType="INTEGER" property="size"/>
+        <result column="md5" jdbcType="VARCHAR" property="md5"/>
+        <result column="fastdfsPath" jdbcType="VARCHAR" property="fastdfsPath"/>
+        <result column="active" jdbcType="INTEGER" property="active"/>
+        <collection property="user" ofType="com.xusenme.model.User">
+            <id column="id" jdbcType="INTEGER" property="id"/>
+            <result column="username" jdbcType="VARCHAR" property="username"/>
+            <result column="email" jdbcType="VARCHAR" property="email"/>
+        </collection>
+    </resultMap>
+
+    <select id="getMyFileByMd5" parameterType="String" resultType="com.xusenme.model.MyFile">
+		select * from file where md5 = #{md5} limit 1;
+	</select>
+
+
+    <insert id="saveMyFile" parameterType="com.xusenme.model.MyFile">
+		insert into file(id,filename,size,md5,fastdfsPath) values(#{id},#{filename},#{size},#{md5},#{fastdfsPath})
+	</insert>
+
+    <insert id="saveUserFile">
+		insert into user_file(id,fileId,userId,dir) values(#{arg0},#{arg1},#{arg2},#{arg3})
+	</insert>
+
+
+    <select id="getAllMyFile" resultMap="MyFileResultMap">
+		select
+            file.id as id,
+            file.filename as filename,
+            file.size as size,
+            file.md5 as md5,
+            file.fastdfsPath as fastdfsPath,
+            file.active as active,
+            user.username as username,
+            user.email as email
+        from file left join user_file on file.id=user_file.fileId left join user on user_file.userId=user.id
+	</select>
+
+    <update id="updateMyFile" parameterType="com.xusenme.model.MyFile">
+        update file set
+
+        <if test="active!=null">
+            active=#{active}
+        </if>
+        where id = #{id}
+    </update>
+
+
+</mapper>

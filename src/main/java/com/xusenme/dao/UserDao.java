@@ -1,5 +1,6 @@
 package com.xusenme.dao;
 
+import com.xusenme.controller.vo.UpdateUserVo;
 import com.xusenme.controller.vo.UserVo;
 import com.xusenme.model.User;
 import org.apache.ibatis.annotations.Mapper;
@@ -20,4 +21,6 @@ public interface UserDao {
     User getUserByEmailAndPassword(UserVo userVo);
 
     List<User> listUser();
+
+    int updateUser(UpdateUserVo updateUserVo);
 }

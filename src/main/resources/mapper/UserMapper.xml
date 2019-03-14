@@ -28,4 +28,15 @@
 		select id,username,email,size,admin,active from user;
 	</select>
 
+	<update id="updateUser" parameterType="com.xusenme.controller.vo.UpdateUserVo">
+		update user set
+		<if test="size!=0">
+			size=#{size}
+		</if>
+		<if test="active!=null">
+			active=#{active}
+		</if>
+		where id = #{userId}
+	</update>
+
 </mapper>

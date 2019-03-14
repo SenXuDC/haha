@@ -9,6 +9,8 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -53,8 +55,12 @@ public class UserController {
     @ApiOperation(value = "用户登录", notes = "")
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public Map<String, String> login(@RequestBody UserVo userVo) {
-        return userService.login(userVo);
+    public Object login(@RequestBody UserVo userVo) {
+        Map<String,String> result = userService.login(userVo);
+        if (result.get("error_type")!=null) {
+            return new ResponseEntity(result,HttpStatus.BAD_REQUEST);
+        }
+        return result;
     }
 
     @ApiOperation(value = "用户详情", notes = "")

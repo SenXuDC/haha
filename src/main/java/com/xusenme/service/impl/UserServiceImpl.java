@@ -8,14 +8,15 @@ import com.xusenme.utils.Email;
 import com.xusenme.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -112,8 +113,8 @@ public class UserServiceImpl implements UserService {
         Map<String, String> resultMap = new HashMap<>();
         User user = userDao.getUserByEmailAndPassword(userVo);
         if (user == null) {
-            resultMap.put("result", "false");
-            resultMap.put("message", "用户名或者密码错误");
+            resultMap.put("error_type", "error_bad_request");
+            resultMap.put("error_info", "用户名或者密码错误");
             return resultMap;
         }
         String jwt = JwtUtil.createJWT(expired * 60 * 1000, user, jwtKey);
