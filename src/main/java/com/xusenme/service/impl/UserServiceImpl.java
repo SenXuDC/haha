@@ -6,11 +6,14 @@ import com.xusenme.model.User;
 import com.xusenme.service.UserService;
 import com.xusenme.utils.Email;
 import com.xusenme.utils.JwtUtil;
+import com.xusenme.utils.Md5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -81,7 +84,13 @@ public class UserServiceImpl implements UserService {
         user.setId(uuid);
         user.setUsername(userVo.getUsername());
         user.setEmail(userVo.getEmail());
-        user.setPassword(userVo.getPassword());
+        try {
+            user.setPassword(Md5.encoderByMd5(userVo.getPassword()));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         user.setSize(size);
         if (userDao.createUser(user) < 0) {
             result.put("result", "false");
@@ -95,22 +104,31 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Map<String, String> active(String id) {
+    public String active(String id) {
         Map<String, String> result = new HashMap<>();
+        String resp = "";
         if (userDao.active(id) > 0) {
             // 删除多余的用户信息
-            result.put("result", "true");
-
+//            result.put("result", "true");
+            resp = "恭喜您，激活用户成功";
         } else {
-            result.put("result", "false");
-            result.put("message", "激活失败");
+//            result.put("result", "false");
+//            result.put("message", "激活失败");
+            resp = "对不起，激活用户失败";
         }
-        return result;
+        return resp;
     }
 
     @Override
     public Map<String, String> login(UserVo userVo) {
         Map<String, String> resultMap = new HashMap<>();
+        try {
+            userVo.setPassword(Md5.encoderByMd5(userVo.getPassword()));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         User user = userDao.getUserByEmailAndPassword(userVo);
         if (user == null) {
             resultMap.put("error_type", "error_bad_request");

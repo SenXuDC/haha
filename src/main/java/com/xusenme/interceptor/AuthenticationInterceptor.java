@@ -33,12 +33,9 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object object) throws Exception {
 
         String path = httpServletRequest.getServletPath();
-        if (path.startsWith("/user") || path.contains("swagger") || path.contains("api") || path.contains("/")) {
-            httpServletRequest.setAttribute("userId","bfc5f9a3-bd2d-45c2-bfa3-6b893443a980");
+        if (path.startsWith("/user") || path.contains("swagger") || path.contains("api")) {
             return true;
         }
-
-
         // 从 http 请求头中取出 token
         String token = httpServletRequest.getHeader("token");
         if (StringUtils.isNullOrEmpty(token)) {
@@ -56,6 +53,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             return false;
         }
         if (claims.get("id") != null) {
+            httpServletRequest.setAttribute("userId",claims.get("id"));
+            httpServletRequest.setAttribute("email",claims.get("email"));
             return true;
         }
         httpServletResponse.sendError(403,"没有权限认证");

@@ -158,7 +158,7 @@ public class FastDFSClientUtils {
      * @param fileId 文件id
      * @return 返回InputStream
      */
-    public static InputStream download(String groupName, String fileId) {
+    public static byte[] download(String groupName, String fileId) {
         TrackerServer trackerServer = null;
         StorageServer storageServer = null;
         StorageClient1 storageClient1 = null;
@@ -170,8 +170,9 @@ public class FastDFSClientUtils {
             storageServer = trackerClient.getStoreStorage(trackerServer, groupName);
             storageClient1 = new StorageClient1(trackerServer, storageServer);
             byte[] bytes = storageClient1.download_file1(fileId);
-            InputStream inputStream = new ByteArrayInputStream(bytes);
-            return inputStream;
+//            InputStream inputStream = new ByteArrayInputStream(bytes);
+//            return inputStream;
+            return bytes;
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;

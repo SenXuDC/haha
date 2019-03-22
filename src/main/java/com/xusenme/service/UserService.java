@@ -7,11 +7,11 @@ import java.util.Map;
 
 public interface UserService {
 
-    public User getUserById(User user);
+    User getUserById(User user);
 
     Map<String,String> createUser(UserVo userVo);
 
-    Map<String, String> active(String id);
+    String active(String id);
 
     Map<String, String> login(UserVo userVo);
 }

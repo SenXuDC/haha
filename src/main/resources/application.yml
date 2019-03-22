@@ -27,3 +27,7 @@ user:
   defaultSize: 50 #单位G
   expired: 1440
   jwtKey: haha
+
+fastdfs:
+#  url: 47.101.205.211:80
+  url: localhost:80

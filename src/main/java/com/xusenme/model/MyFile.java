@@ -9,6 +9,7 @@ public class MyFile {
     private String fastdfsPath;
     private int size;
     private User user;
+    private Boolean folder;
 
     @Override
     public String toString() {
@@ -20,6 +21,7 @@ public class MyFile {
                 ", fastdfsPath='" + fastdfsPath + '\'' +
                 ", size=" + size +
                 ", user=" + user +
+                ", folder=" + folder +
                 '}';
     }
 
@@ -79,11 +81,19 @@ public class MyFile {
         this.user = user;
     }
 
+    public Boolean getFolder() {
+        return folder;
+    }
+
+    public void setFolder(Boolean folder) {
+        this.folder = folder;
+    }
+
     public MyFile() {
 
     }
 
-    public MyFile(String id, String filename, String md5, Boolean active, String fastdfsPath, int size, User user) {
+    public MyFile(String id, String filename, String md5, Boolean active, String fastdfsPath, int size, User user, Boolean folder) {
         this.id = id;
         this.filename = filename;
         this.md5 = md5;
@@ -91,5 +101,6 @@ public class MyFile {
         this.fastdfsPath = fastdfsPath;
         this.size = size;
         this.user = user;
+        this.folder = folder;
     }
 }

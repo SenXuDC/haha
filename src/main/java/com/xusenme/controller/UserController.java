@@ -48,7 +48,7 @@ public class UserController {
     @ApiOperation(value = "用户激活", notes = "")
     @RequestMapping(value = "/active/{id}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public Map<String, String> active(@PathVariable("id") String id) {
+    public Object active(@PathVariable("id") String id) {
         return userService.active(id);
     }
 
