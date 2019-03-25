@@ -85,8 +85,8 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public List<MyFile> listDir(String userId, String dir) {
-        List<MyFile> myFileList = myFileDao.listDir(userId, dir);
+    public List<MyFile> listDir(String userId, String dir,String findFilename) {
+        List<MyFile> myFileList = myFileDao.listDir(userId, dir, findFilename);
         for (MyFile myFile : myFileList) {
             if (myFile.getActive()) {
                 myFile.setFastdfsPath("http://" + fastdfsUrl + "/" + myFile.getFastdfsPath());

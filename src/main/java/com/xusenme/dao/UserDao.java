@@ -23,4 +23,6 @@ public interface UserDao {
     List<User> listUser();
 
     int updateUser(UpdateUserVo updateUserVo);
+
+    int changePassword(UserVo userVo);
 }

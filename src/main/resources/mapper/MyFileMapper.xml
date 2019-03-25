@@ -107,6 +107,9 @@
             user_file.dir as dir
         from file left join user_file on file.id = user_file.fileId
         where user_file.userId = #{arg0} and user_file.dir = #{arg1} and isDelete= 0
+        <if test="arg2!=null and arg2!=''">
+            and file.filename LIKE CONCAT('%',#{arg2},'%')
+        </if>
     </select>
 
     <select id="listRecycle" resultType="com.xusenme.model.MyFile">

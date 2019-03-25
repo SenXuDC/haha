@@ -139,4 +139,21 @@ public class UserServiceImpl implements UserService {
         resultMap.put("token", jwt);
         return resultMap;
     }
+
+    @Override
+    public Object changePassword(UserVo userVo) {
+        try {
+            userVo.setOldPassword(Md5.encoderByMd5(userVo.getOldPassword()));
+            userVo.setNewPassword(Md5.encoderByMd5(userVo.getNewPassword()));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        if (userDao.changePassword(userVo) > 0) {
+            return "密码修改成功";
+        }
+        return "密码修改失败";
+    }
 }

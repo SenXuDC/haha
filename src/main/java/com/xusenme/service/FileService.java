@@ -12,7 +12,7 @@ public interface FileService {
 
     Object upload(String userId, Map<String, Object> paramMap, HttpServletRequest request);
 
-    List<MyFile> listDir(String userId, String dir);
+    List<MyFile> listDir(String userId, String dir,String findFileName);
 
     Object createFolder(String userId, String folder,String dir);
 

@@ -14,4 +14,6 @@ public interface UserService {
     String active(String id);
 
     Map<String, String> login(UserVo userVo);
+
+    Object changePassword(UserVo userVo);
 }

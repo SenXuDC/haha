@@ -4,6 +4,15 @@ public class MyFileVo {
     private String id;
     private String dir;
     private String folder;
+    private String findFilename;
+
+    public String getFindFilename() {
+        return findFilename;
+    }
+
+    public void setFindFilename(String findFilename) {
+        this.findFilename = findFilename;
+    }
 
     public String getId() {
         return id;

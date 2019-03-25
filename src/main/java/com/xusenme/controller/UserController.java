@@ -77,4 +77,17 @@ public class UserController {
         resultMap.put("size", claims.get("size"));
         return resultMap;
     }
+
+//    changePassword
+    @ApiOperation(value = "用户修改密码", notes = "")
+    @RequestMapping(value = "/changePassword", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public Object changePassword(@RequestBody UserVo userVo) {
+        return userService.changePassword(userVo);
+//        Map<String,String> result = userService.login(userVo);
+//        if (result.get("error_type")!=null) {
+//            return new ResponseEntity(result,HttpStatus.BAD_REQUEST);
+//        }
+//        return result;
+    }
 }

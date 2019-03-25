@@ -21,7 +21,7 @@ public interface MyFileDao {
 
     int updateMyFile(MyFile myFile);
 
-    List<MyFile> listDir(String userId, String dir);
+    List<MyFile> listDir(String userId, String dir, String findFilename);
 
     int createFolder(String id, String folder);
 

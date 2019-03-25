@@ -39,4 +39,8 @@
 		where id = #{userId}
 	</update>
 
+	<update id="changePassword" parameterType="com.xusenme.controller.vo.UserVo">
+		update user set password=#{newPassword} where email=#{email} and password=#{oldPassword}
+	</update>
+
 </mapper>

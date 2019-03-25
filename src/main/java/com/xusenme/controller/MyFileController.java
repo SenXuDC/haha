@@ -72,7 +72,7 @@ public class MyFileController {
     @ResponseBody
     public Object listDir(@RequestBody MyFileVo myFileVo, HttpServletRequest request) {
         String userId = (String) request.getAttribute("userId");
-        return fileService.listDir(userId, myFileVo.getDir());
+        return fileService.listDir(userId, myFileVo.getDir(),myFileVo.getFindFilename());
     }
 
 
@@ -140,6 +140,15 @@ public class MyFileController {
         return fileService.shareGet(shareVo);
     }
 
-
+//    @ApiOperation(value = "过滤文件", notes = "")
+//    @RequestMapping(value = "/shareGet", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+//    @ResponseBody
+//    public Object shareGet(@RequestBody ShareVo shareVo , HttpServletRequest request) {
+//        String userId = (String) request.getAttribute("userId");
+//        String email = (String) request.getAttribute("email");
+//        shareVo.setEmail(email);
+//        return fileService.shareGet(shareVo);
+//    }
+//    findFilename
 
 }
